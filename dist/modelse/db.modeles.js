@@ -17,7 +17,6 @@ exports.pool = void 0;
 const pg_1 = require("pg");
 const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
-console.log("🔍 Connecting to Database..."); // Add this to confirm execution
 exports.pool = new pg_1.Pool({
     user: process.env.DB_USER,
     host: process.env.DB_HOST,
@@ -26,8 +25,8 @@ exports.pool = new pg_1.Pool({
     port: Number(process.env.DB_PORT) || 5432,
 });
 exports.pool.connect()
-    .then(() => console.log("✅ Database Connected!"))
+    .then(() => console.log("Database Connected!"))
     .catch((err) => {
-    console.error("❌ Database Connection Failed:", err.message);
+    console.error("Database Connection Failed:", err.message);
     process.exit(1); // Exit the process if DB fails to connect
 });

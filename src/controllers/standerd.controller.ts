@@ -3,26 +3,21 @@ import { pool } from "../modelse/db.modeles";
 
 export const createStandard = async (req: Request, res: Response) => {
   try {
-    console.log("🟢 Received request to create standard"); // Debugging log
 
     const { name } = req.body;
 
     if (!name) {
-      console.log("🔴 Missing 'name' field in request"); // Debugging log
       return res.status(400).json({ message: "Name is required" });
     }
 
-    console.log("🟢 Inserting into database..."); // Debugging log
     const result = await pool.query(
       "INSERT INTO standards (name) VALUES ($1) RETURNING *",
       [name]
     );
 
-    console.log("✅ Standard created:", result.rows[0]); // Debugging log
     res.status(201).json({ message: "Standard created successfully", standard: result.rows[0] });
 
   } catch (error) {
-    console.error("❌ Error in createStandard:", (error as Error).message);
     res.status(500).json({ message: "Error creating standard", error: (error as Error).message });
   }
 };

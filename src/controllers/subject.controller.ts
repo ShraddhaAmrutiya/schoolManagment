@@ -42,9 +42,9 @@ export const updatesubjects = async (req: Request, res: Response) => {
     }
 
     try {
-
+        // ✅ Update the correct table: "subjects"
         const result = await pool.query(
-            "UPDATE classes SET name = $1 WHERE id = $2 RETURNING *",
+            "UPDATE subjects SET name = $1 WHERE id = $2 RETURNING *",
             [name, id]
         );
 
@@ -52,13 +52,13 @@ export const updatesubjects = async (req: Request, res: Response) => {
             return res.status(404).json({ message: "Subject not found" });
         }
 
-        console.log("✅ Subject updated:", result.rows[0]);
         res.status(200).json({ message: "Subject updated successfully", subject: result.rows[0] });
 
     } catch (error) {
         res.status(500).json({ message: "Error updating subject", error: (error as Error).message });
     }
 };
+
 
 export const deletesubject=async(req:Request, res:Response)=>{
     const {id}=req.params

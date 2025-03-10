@@ -17,10 +17,6 @@ dotenv_1.default.config();
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
-app.use((req, res, next) => {
-    console.log(`💡 Incoming Request: ${req.method} ${req.url}`);
-    next();
-});
 (0, swaggersetup_1.setupSwagger)(app);
 (0, migrations_1.createTables)().then(() => {
     console.log("Database initialized.");
@@ -34,11 +30,11 @@ app.use("/students", student_routes_1.default);
 app.use("/subjects", subject_routes_1.default);
 app.use("/marks", marks_routes_1.default);
 app.use((err, req, res, next) => {
-    console.error(err.stack); 
+    console.error(err.stack); // Log error for debugging
     const statusCode = err.statusCode || 500;
     res.status(statusCode).json({
         message: err.message || "Internal Server Error",
-        error: process.env.NODE_ENV === "development" ? err : undefined, 
+        error: process.env.NODE_ENV === "development" ? err : undefined,
     });
 });
 app.listen(3000, () => console.log("Server running on port 3000"));

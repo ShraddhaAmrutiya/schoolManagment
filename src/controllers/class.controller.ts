@@ -42,12 +42,19 @@ export const getClasses = async (_req: Request, res: Response) => {
   const result = await pool.query("SELECT * FROM classes");
   res.json(result.rows);
 };
-
 export const updateClass = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name, standard_id } = req.body;
 
   try {
+    // Check if the standard_id exists
+    const standardCheck = await pool.query("SELECT id FROM standards WHERE id = $1", [standard_id]);
+
+    if (standardCheck.rows.length === 0) {
+      return res.status(400).json({ message: "Invalid standard_id. No such standard exists." });
+    }
+
+    // Update the class
     const result = await pool.query(
       "UPDATE classes SET name = $1, standard_id = $2 WHERE id = $3 RETURNING *",
       [name, standard_id, id]

@@ -46,11 +46,11 @@ const updatesubjects = (req, res) => __awaiter(void 0, void 0, void 0, function*
         return res.status(400).json({ message: "Name is required" });
     }
     try {
-        const result = yield db_modeles_1.pool.query("UPDATE classes SET name = $1 WHERE id = $2 RETURNING *", [name, id]);
+        // ✅ Update the correct table: "subjects"
+        const result = yield db_modeles_1.pool.query("UPDATE subjects SET name = $1 WHERE id = $2 RETURNING *", [name, id]);
         if (result.rows.length === 0) {
             return res.status(404).json({ message: "Subject not found" });
         }
-        console.log("✅ Subject updated:", result.rows[0]);
         res.status(200).json({ message: "Subject updated successfully", subject: result.rows[0] });
     }
     catch (error) {

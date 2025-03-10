@@ -15,12 +15,6 @@ dotenv.config();
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-
-// ✅ Debugging Middleware
-app.use((req, res, next) => {
-  console.log(`💡 Incoming Request: ${req.method} ${req.url}`);
-  next();
-})
 setupSwagger(app);
 
 createTables().then(() => {
@@ -44,7 +38,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   const statusCode = err.statusCode || 500;
   res.status(statusCode).json({
     message: err.message || "Internal Server Error",
-    error: process.env.NODE_ENV === "development" ? err : undefined, // Show full error only in development
+    error: process.env.NODE_ENV === "development" ? err : undefined, 
   });
 });
 

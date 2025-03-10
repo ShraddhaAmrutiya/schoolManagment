@@ -113,7 +113,6 @@ exports.marksSwagger = {
         },
     },
 };
-// Add security schema for token authentication
 exports.securitySchemes = {
     securitySchemes: {
         tokenAuth: {

@@ -16,7 +16,6 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-console.log("🔍 Connecting to Database..."); // Add this to confirm execution
 
 export const pool = new Pool({
   user: process.env.DB_USER,
@@ -27,8 +26,8 @@ export const pool = new Pool({
 });
 
 pool.connect()
-  .then(() => console.log("✅ Database Connected!"))
+  .then(() => console.log("Database Connected!"))
   .catch((err) => {
-    console.error("❌ Database Connection Failed:", err.message);
+    console.error("Database Connection Failed:", err.message);
     process.exit(1); // Exit the process if DB fails to connect
   });

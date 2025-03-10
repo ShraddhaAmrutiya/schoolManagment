@@ -18,11 +18,9 @@ const createStandard = (req, res) => __awaiter(void 0, void 0, void 0, function*
             return res.status(400).json({ message: "Name is required" });
         }
         const result = yield db_modeles_1.pool.query("INSERT INTO standards (name) VALUES ($1) RETURNING *", [name]);
-        console.log("✅ Standard created:", result.rows[0]); // Debugging log
         res.status(201).json({ message: "Standard created successfully", standard: result.rows[0] });
     }
     catch (error) {
-        console.error("❌ Error in createStandard:", error.message);
         res.status(500).json({ message: "Error creating standard", error: error.message });
     }
 });
